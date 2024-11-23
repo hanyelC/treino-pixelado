@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { WorkoutPlanService } from "../../services/WorkoutPlanService";
 
 export const getWorkoutPlan = (listWorkoutsPlan: WorkoutPlanService) => {
-  async (req: Request, res: Response) => {
+  return async (req: Request, res: Response) => {
     try {
       const workoutsPlan = await listWorkoutsPlan.getWorkoutPlan();
 

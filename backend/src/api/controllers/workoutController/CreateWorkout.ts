@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { WorkoutService } from "../../services/WorkoutService";
 
 export const createWorkout = (workoutCreate: WorkoutService) => {
-  async (req: Request, res: Response) => {
+  return async (req: Request, res: Response) => {
     try {
       const { name, img_url, workout_plan_id } = req.body;
 

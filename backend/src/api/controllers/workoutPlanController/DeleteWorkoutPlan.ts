@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { WorkoutPlanService } from "../../services/WorkoutPlanService";
 
 export const deleteWorkoutPlan = (removeWorkoutPlan: WorkoutPlanService) => {
-  async (req: Request, res: Response) => {
+  return async (req: Request, res: Response) => {
     try {
       const workoutPlanId = Number(req.params.id);
 

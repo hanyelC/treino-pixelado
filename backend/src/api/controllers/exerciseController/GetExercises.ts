@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ExerciseService } from "../../services/ExerciseService";
 
 export const getExercises = (listExercises: ExerciseService) => {
-  async (req: Request, res: Response) => {
+  return async (req: Request, res: Response) => {
     try {
       const exercises = await listExercises.getExercise();
 
