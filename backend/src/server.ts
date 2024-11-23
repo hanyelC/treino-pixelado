@@ -1,14 +1,16 @@
+import cors from "cors";
 import Express from "express";
 
 import exerciseRoutes from "./api/routes/exerciseRoutes";
-import workoutRoutes from "./api/routes/workoutRoutes";
 import workoutPlanRoutes from "./api/routes/workoutPlanRoutes";
+import workoutRoutes from "./api/routes/workoutRoutes";
 
 const app = Express();
 
 const PORT = 3000;
 
 app.use(Express.json());
+app.use(cors());
 
 app.use("/api", exerciseRoutes);
 app.use("/api", workoutRoutes);
