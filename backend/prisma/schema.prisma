@@ -14,50 +14,50 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  email     String   @unique
+  email     String    @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
-  workoutPlans WorkoutPlan[]
+  // workoutPlans WorkoutPlan[]
 }
 
 model WorkoutPlan {
-  id          Int      @id @default(autoincrement())
-  name        String // Exemplo: "Treino para ganhar massa muscular"
+  id          Int       @id @default(autoincrement())
+  name        String
   description String?
-  isCustom    Boolean // true para planos personalizados, false para planos prontos
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  userId   Int
-  user     User      @relation(fields: [userId], references: [id])
-  workouts Workout[]
+  img_url     String
+  // isCustom    Boolean?
+  // createdAt   DateTime? @default(now())
+  // updatedAt   DateTime? @updatedAt
+  // userId      Int?
+  // user        User?     @relation(fields: [userId], references: [id])
+  workouts    Workout[]
 }
 
 model Workout {
-  id          Int      @id @default(autoincrement())
-  name        String // Exemplo: "Braço", "Perna"
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        Int       @id @default(autoincrement())
+  name      String
+  img_url   String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 
-  workoutPlanId Int
-  workoutPlan   WorkoutPlan @relation(fields: [workoutPlanId], references: [id])
-  exercises     Exercise[]
+  workout_plan_id Int?
+  workoutPlan     WorkoutPlan? @relation(fields: [workout_plan_id], references: [id], onDelete: Cascade) //review
+  exercises       Exercise[]
 }
 
 model Exercise {
-  id          Int      @id @default(autoincrement())
-  name        String // Nome do exercício
-  repetitions Int // Número de repetições
-  duration    Int? // Duração em segundos, se for cronometrado
-  gifUrl      String? // URL para o GIF do exercício
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  name        String
+  repetitions Int
+  duration    Int
+  gif_url     String?
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
 
-  workoutId Int
-  workout   Workout @relation(fields: [workoutId], references: [id])
+  workout_id Int?
+  workout    Workout? @relation(fields: [workout_id], references: [id], onDelete: Cascade) //review
 }
