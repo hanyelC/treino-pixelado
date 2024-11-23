@@ -1,8 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import { IExerciseRepository } from "../interface/IExerciseRepository";
-const prisma = new PrismaClient();
 
 export class ExerciseRepository implements IExerciseRepository {
+  constructor(private readonly prisma: PrismaClient) {}
   async createExercise(data: {
     name: string;
     duration: number;
@@ -10,7 +10,7 @@ export class ExerciseRepository implements IExerciseRepository {
     gif_url: string;
     workout_id: number; //review
   }): Promise<{ id: number }> {
-    return await prisma.exercise.create({ data });
+    return await this.prisma.exercise.create({ data });
   }
 
   async getExercise(): Promise<
@@ -22,6 +22,6 @@ export class ExerciseRepository implements IExerciseRepository {
       workout_id?: number | null;
     }[]
   > {
-    return await prisma.exercise.findMany();
+    return await this.prisma.exercise.findMany();
   }
 }
