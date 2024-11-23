@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  workoutPlans WorkoutPlan[]
+}
+
+model WorkoutPlan {
+  id          Int      @id @default(autoincrement())
+  name        String // Exemplo: "Treino para ganhar massa muscular"
+  description String?
+  isCustom    Boolean // true para planos personalizados, false para planos prontos
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId   Int
+  user     User      @relation(fields: [userId], references: [id])
+  workouts Workout[]
+}
+
+model Workout {
+  id          Int      @id @default(autoincrement())
+  name        String // Exemplo: "Braço", "Perna"
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workoutPlanId Int
+  workoutPlan   WorkoutPlan @relation(fields: [workoutPlanId], references: [id])
+  exercises     Exercise[]
+}
+
+model Exercise {
+  id          Int      @id @default(autoincrement())
+  name        String // Nome do exercício
+  repetitions Int // Número de repetições
+  duration    Int? // Duração em segundos, se for cronometrado
+  gifUrl      String? // URL para o GIF do exercício
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workoutId Int
+  workout   Workout @relation(fields: [workoutId], references: [id])
+}
