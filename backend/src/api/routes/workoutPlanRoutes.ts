@@ -1,13 +1,20 @@
-import { Router } from "express";
-import { createWorkoutPlan } from "../controllers/workoutPlanController/CreateWorkoutPlan";
-import { getWorkoutPlan } from "../controllers/workoutPlanController/GetWorkoutPlan";
-import { deleteWorkoutPlan } from "../controllers/workoutPlanController/DeleteWorkoutPlan";
-import { workoutPlanService } from "../config/dependencies";
+import { Router } from 'express';
+import {
+  createWorkoutPlanController,
+  deleteWorkoutPlanController,
+  getWorkoutPlanController,
+} from '../config/dependencies';
 
 const routes = Router();
 
-routes.post("/workoutplan", createWorkoutPlan(workoutPlanService));
-routes.get("/workoutsplan", getWorkoutPlan(workoutPlanService));
-routes.delete("/workoutplan/:id", deleteWorkoutPlan(workoutPlanService));
+routes.post('/workoutplan', (req, res) =>
+  createWorkoutPlanController.handle(req, res)
+);
+routes.get('/workoutsplan', (req, res) =>
+  getWorkoutPlanController.handle(req, res)
+);
+routes.delete('/workoutplan/:id', (req, res) =>
+  deleteWorkoutPlanController.handle(req, res)
+);
 
 export default routes;

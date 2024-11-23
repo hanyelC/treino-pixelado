@@ -1,11 +1,14 @@
-import { Router } from "express";
-import { createWorkout } from "../controllers/workoutController/CreateWorkout";
-import { getWorkout } from "../controllers/workoutController/GetWorkout";
-import { workoutService } from "../config/dependencies";
+import { Router } from 'express';
+import {
+  createWorkoutController,
+  getWorkoutController,
+} from '../config/dependencies';
 
 const routes = Router();
 
-routes.post("/workout", createWorkout(workoutService));
-routes.get("/workouts", getWorkout(workoutService));
+routes.post('/workouts', (req, res) =>
+  createWorkoutController.handle(req, res)
+);
+routes.get('/workouts', (req, res) => getWorkoutController.handle(req, res));
 
 export default routes;

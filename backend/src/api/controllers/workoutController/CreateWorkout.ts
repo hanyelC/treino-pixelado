@@ -1,12 +1,14 @@
-import { Request, Response } from "express";
-import { WorkoutService } from "../../services/WorkoutService";
+import { Request, Response } from 'express';
+import { WorkoutService } from '../../services/WorkoutService';
 
-export const createWorkout = (workoutCreate: WorkoutService) => {
-  return async (req: Request, res: Response) => {
+export class CreateWorkoutController {
+  constructor(private readonly workoutCreate: WorkoutService) {}
+
+  async handle(req: Request, res: Response) {
     try {
       const { name, img_url, workout_plan_id } = req.body;
 
-      const exercise = await workoutCreate.createWorkout(
+      const exercise = await this.workoutCreate.createWorkout(
         name,
         img_url,
         workout_plan_id //review
@@ -16,5 +18,5 @@ export const createWorkout = (workoutCreate: WorkoutService) => {
     } catch (error: any) {
       res.status(400).json({ error: error.message });
     }
-  };
-};
+  }
+}
