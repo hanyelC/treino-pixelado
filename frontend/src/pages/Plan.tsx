@@ -14,7 +14,7 @@ const days = [
 ];
 
 export function Plan() {
-
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState("PLAN");
   const navigate = useNavigate();
 
@@ -22,6 +22,10 @@ export function Plan() {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
     if (tab === "TRAINING") navigate("/workoutPlan"); 
+  };
+
+  const handleItemClick = (index: number) => {
+    setSelectedDay(index === selectedDay ? null : index); // Se o mesmo item for clicado, desmarque a seleção
   };
 
   return( 
@@ -43,23 +47,42 @@ export function Plan() {
         </p>
       </div>
     </Header>
-    <div className="px-3 py-4">
+    <div className="px-3 pt-16">
       <img src={banner} alt="Logo do site" className="rounded-xl" />
     </div>
     {days.map((item, index) => (
-        <div
-          key={index}
-          className="flex justify-between bg-slate-100 py-5 px-3 mx-3 my-3 rounded-[10px]"
-        >
-          <div className="flex-col">
-            <p className="text-black text-xl">{item.day}</p>
-            <p className="text-black text-xs">{item.workout}</p>
+          <div
+            key={index}
+            className={`flex justify-between py-5 px-3 mx-3 my-3 rounded-[10px] ${
+              selectedDay === index ? "bg-orange-500" : "bg-slate-100"
+            }`}
+            onClick={() => handleItemClick(index)} // Ao clicar, chama a função para alterar o estado
+          >
+            <div className="flex-col">
+            <p
+                className={`${
+                  selectedDay === index ? "text-white" : "text-black"
+                } text-xl`}
+              >
+                {item.day}
+              </p>
+              <p
+                className={`${
+                  selectedDay === index ? "text-white" : "text-black"
+                } text-xs`}
+              >
+                {item.workout}
+              </p>
+            </div>
+            <button
+              className={`${
+                selectedDay === index ? "bg-white text-orange-500" : "bg-orange-500 text-white"
+              } rounded-lg py-1 px-7`}
+            >
+              <p>Start</p>
+            </button>
           </div>
-          <button className="bg-orange-500 rounded-lg py-1 px-7">
-            <p>Start</p>
-          </button>
-        </div>
-      ))}
+        ))}
   </div>
   )
 }
